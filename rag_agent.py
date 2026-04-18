@@ -65,7 +65,6 @@ class RAGAgent:
 if __name__ == "__main__":
     agent = RAGAgent()
     
-    # Verificăm ce fișiere vede scriptul în folderul docs
     if os.path.exists("docs"):
         print(f"Files found in 'docs': {os.listdir('docs')}")
     else:
@@ -74,8 +73,6 @@ if __name__ == "__main__":
     pdf_name = "document.pdf" 
     path = os.path.join("docs", pdf_name)
 
-    # FORȚĂM citirea documentului
-    # Asigură-te că NU ai # în față la linia de mai jos:
     success = agent.ingest_document(path)
     
     if success:
