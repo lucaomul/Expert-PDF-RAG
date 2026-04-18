@@ -1,4 +1,4 @@
-# AI PDF Researcher
+# ChatPDF
 
 What is this?
 
