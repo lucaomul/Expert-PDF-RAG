@@ -1,0 +1,12 @@
+# Python
+venv/
+__pycache__/
+*.py[cod]
+
+# Baza de date locală (Privat)
+chroma_db/
+docs/*.pdf
+
+# Mediu
+.env
+.DS_Store
