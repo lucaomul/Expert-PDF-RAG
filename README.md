@@ -1,35 +1,162 @@
-# ChatPDF
+# 📄 ChatPDF — Conversational RAG System for Document Intelligence
 
-What is this?
+> Stop searching PDFs. Start querying them.
 
-I built this because I got tired of using "Cmd+F" through hundreds of pages just to find one specific detail. This is a custom AI tool that actually "reads" your PDFs and lets you have a real conversation with them. It doesn't just guess; it pulls facts directly from your files and tells you exactly where it found them.
+---
 
-How you can use it:
+## 🚀 Overview
 
-For Students: Instead of panicking before exams, you can dump all your lecture notes and seminars here. Use it to quiz yourself, summarize that 50-page chapter, or clarify complex concepts in seconds.
+ChatPDF is an AI-powered document intelligence system that transforms static PDFs into **interactive, queryable knowledge bases**.
 
-For HR & Recruiters: If you have a pile of CVs, just drop them in. You can ask things like "Who has the most experience with Python?" or "Summarize the top 3 candidates for the Dev role" without opening every single file.
+Instead of manually searching through large documents, users can ask natural language questions and receive **context-aware answers with exact source references**.
 
-For Legal & Business: Stop wasting hours on long contracts. Ask the tool to find the termination clauses, payment terms, or any hidden risks while you grab a coffee.
+The system is built using a **Retrieval-Augmented Generation (RAG)** architecture to ensure accuracy, traceability, and reliability.
 
-For Tech Geeks: Perfect for massive technical manuals. Instead of scrolling forever, just ask the AI for the specific wiring diagram or API endpoint you're looking for.
+---
 
-Why I built it this way:
+## 🧠 What It Does
 
-It remembers: You can ask follow-up questions just like you're talking to a human.
+* Converts PDFs into searchable semantic data
+* Enables natural language querying over documents
+* Returns answers with **exact page-level source attribution**
+* Supports follow-up questions with conversational context
 
-No "Trust me, bro": It shows you the exact source and page number for every answer, so you can verify everything.
+---
 
-Privacy first: Your documents are indexed locally, meaning you're in control of your data.
+## ⚙️ Core Features
 
-Custom Look: I added a UI controller so you can change the colors to match your vibe.
+### 🔍 Semantic Search (RAG)
 
-Quick Setup
+* Uses embeddings + vector search to retrieve relevant document chunks
+* Eliminates reliance on keyword-based search (Cmd+F limitations)
 
-Clone this repo.
+### 💬 Conversational Memory
 
-Toss your OpenAI key in app.py.
+* Maintains context across multiple queries
+* Enables natural multi-step interactions with documents
 
-Run pip install -r requirements.txt.
+### 📌 Source Attribution
 
-Fire it up with streamlit run app.py and start chatting.
+* Every response includes the **exact page reference**
+* Improves trust and verifiability of AI-generated answers
+
+### 🔒 Privacy-Focused
+
+* Documents are processed and indexed locally
+* No external storage of sensitive data
+
+### 🎨 Custom UI
+
+* Built with Streamlit
+* Includes dynamic UI controls for user customization
+
+---
+
+## 🧪 Use Cases
+
+### 🎓 Students
+
+* Summarize large study materials
+* Generate quick explanations for complex topics
+* Self-test using document-based Q&A
+
+### 💼 HR & Recruiters
+
+* Analyze multiple CVs simultaneously
+* Extract candidate insights instantly
+* Compare skills and experience across applicants
+
+### ⚖️ Legal & Business
+
+* Extract key clauses (termination, payment, risks)
+* Reduce contract review time from hours to minutes
+
+### 🧑‍💻 Technical Users
+
+* Navigate large documentation (APIs, manuals)
+* Retrieve specific technical details instantly
+
+---
+
+## 🛠️ Tech Stack
+
+* **Python**
+* **OpenAI API (GPT-4o)**
+* **Vector Search (Embeddings-based retrieval)**
+* **Streamlit (UI)**
+* **Document Processing Pipelines**
+
+---
+
+## ⚡ How It Works
+
+1. Upload PDF documents
+2. Extract and chunk text data
+3. Convert text into embeddings
+4. Store in vector database
+5. Retrieve relevant chunks based on query
+6. Generate answer using LLM + retrieved context
+
+---
+
+## ▶️ Getting Started
+
+### Install dependencies
+
+```bash id="x8k3pl"
+pip install -r requirements.txt
+```
+
+### Configure API key
+
+```python id="l9f2qw"
+OPENAI_API_KEY = "your_key_here"
+```
+
+### Run the app
+
+```bash id="p2m8zn"
+streamlit run app.py
+```
+
+---
+
+## 📈 Why This Matters
+
+Traditional document search:
+
+* relies on keyword matching
+* lacks context awareness
+* is time-consuming
+
+ChatPDF:
+
+* enables **semantic understanding**
+* provides **traceable answers**
+* transforms documents into **interactive systems**
+
+---
+
+## 🔮 Future Improvements
+
+* Multi-document cross-referencing
+* Persistent vector database storage
+* Advanced filtering (by section, topic, metadata)
+* Performance optimization for large-scale document sets
+* Integration with external knowledge sources
+
+---
+
+## 👤 Author
+
+**Luca Craciun**
+AI Automation Engineer
+
+GitHub: https://github.com/lucaomul
+LinkedIn: https://www.linkedin.com/in/gabriel-luca-craciun-25ba95295
+
+---
+
+## ⭐ If you find this useful
+
+Star the repo or fork it to build your own document intelligence system.
