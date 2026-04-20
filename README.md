@@ -1,162 +1,182 @@
-# 📄 ChatPDF — Conversational RAG System for Document Intelligence
+# 📄 ChatPDF — Conversational Document Intelligence
 
-> Stop searching PDFs. Start querying them.
+A retrieval-augmented generation (RAG) system that turns PDFs into **interactive, context-aware knowledge systems** — with semantic search, conversational memory, and source-grounded answers.
 
----
-
-## 🚀 Overview
-
-ChatPDF is an AI-powered document intelligence system that transforms static PDFs into **interactive, queryable knowledge bases**.
-
-Instead of manually searching through large documents, users can ask natural language questions and receive **context-aware answers with exact source references**.
-
-The system is built using a **Retrieval-Augmented Generation (RAG)** architecture to ensure accuracy, traceability, and reliability.
+> Built because Ctrl+F doesn’t understand context, and LLMs without retrieval hallucinate confidently.
 
 ---
 
-## 🧠 What It Does
+## 🎬 Demo
 
-* Converts PDFs into searchable semantic data
-* Enables natural language querying over documents
-* Returns answers with **exact page-level source attribution**
-* Supports follow-up questions with conversational context
+![Demo](./RAG_ChatPDF.gif)
 
 ---
 
-## ⚙️ Core Features
+## 🧠 How It Works
 
-### 🔍 Semantic Search (RAG)
+```
+PDF Upload → Text Extraction → Chunking → Embedding → ChromaDB
+                                                           ↓
+User Query → History-Aware Query Rewriting → Vector Search
+                                                           ↓
+                                 GPT-4o → Answer + Source Context
+```
 
-* Uses embeddings + vector search to retrieve relevant document chunks
-* Eliminates reliance on keyword-based search (Cmd+F limitations)
+**The pipeline:**
 
-### 💬 Conversational Memory
-
-* Maintains context across multiple queries
-* Enables natural multi-step interactions with documents
-
-### 📌 Source Attribution
-
-* Every response includes the **exact page reference**
-* Improves trust and verifiability of AI-generated answers
-
-### 🔒 Privacy-Focused
-
-* Documents are processed and indexed locally
-* No external storage of sensitive data
-
-### 🎨 Custom UI
-
-* Built with Streamlit
-* Includes dynamic UI controls for user customization
+1. PDFs are parsed and split into overlapping chunks
+2. Each chunk is embedded and stored in ChromaDB (local vector DB)
+3. User query is rewritten into a **standalone question** using chat history
+4. Relevant chunks are retrieved via semantic similarity
+5. GPT-4o generates an answer using retrieved context
+6. Sources (file + page) are returned for transparency
 
 ---
 
-## 🧪 Use Cases
+## ⚙️ Key Design Decisions
 
-### 🎓 Students
+* **Why ChromaDB?**
+  Runs fully local — no external infra, no data leakage. Ideal for sensitive PDFs (contracts, internal docs, research).
 
-* Summarize large study materials
-* Generate quick explanations for complex topics
-* Self-test using document-based Q&A
+* **Why overlapping chunks?**
+  Prevents context loss at chunk boundaries. Without overlap, answers degrade fast on long paragraphs.
 
-### 💼 HR & Recruiters
+* **Why history-aware retrieval?**
+  This is the major upgrade vs basic RAG.
+  Instead of querying raw input, the system rewrites it into a **context-aware standalone query**.
 
-* Analyze multiple CVs simultaneously
-* Extract candidate insights instantly
-* Compare skills and experience across applicants
+  👉 Enables:
 
-### ⚖️ Legal & Business
+  * follow-up questions
+  * conversational flow
+  * significantly better retrieval accuracy
 
-* Extract key clauses (termination, payment, risks)
-* Reduce contract review time from hours to minutes
+* **Why not LangChain 1.x?**
+  The project uses:
 
-### 🧑‍💻 Technical Users
+  * `create_history_aware_retriever`
+  * `create_retrieval_chain`
 
-* Navigate large documentation (APIs, manuals)
-* Retrieve specific technical details instantly
+  These are removed in 1.x. Migrating would require a full LCEL/LangGraph rewrite with no real gain for this use case.
+
+  👉 Decision: **use stable, expressive abstractions instead of overengineering**
+
+* **Why Streamlit UI?**
+  Fastest way to build a usable interface. Focus stays on RAG logic, not frontend complexity.
+
+---
+
+## 📊 What Changed vs Basic RAG
+
+Compared to a standard "PDF QA" system:
+
+* ➕ Added **chat memory**
+* ➕ Added **query rewriting (history-aware retriever)**
+* ➕ Added **multi-document support**
+* ➕ Added **source tracking (file + page)**
+* ➕ Built a **custom terminal-style UI**
+
+👉 Result: transforms a simple QA tool into a **conversational document system**
 
 ---
 
 ## 🛠️ Tech Stack
 
-* **Python**
-* **OpenAI API (GPT-4o)**
-* **Vector Search (Embeddings-based retrieval)**
-* **Streamlit (UI)**
-* **Document Processing Pipelines**
-
----
-
-## ⚡ How It Works
-
-1. Upload PDF documents
-2. Extract and chunk text data
-3. Convert text into embeddings
-4. Store in vector database
-5. Retrieve relevant chunks based on query
-6. Generate answer using LLM + retrieved context
+* **Python 3.12**
+* **OpenAI API** — GPT-4o (generation) + embeddings
+* **ChromaDB** — local vector database
+* **LangChain (0.3.x)** — RAG orchestration
+* **Streamlit** — UI layer
+* **PyPDFLoader** — PDF parsing
 
 ---
 
 ## ▶️ Getting Started
 
-### Install dependencies
+```bash
+git clone https://github.com/lucaomul/chatpdf.git
+cd chatpdf
 
-```bash id="x8k3pl"
+python -m venv venv
+source venv/bin/activate
+
 pip install -r requirements.txt
 ```
 
-### Configure API key
+Set your API key:
 
-```python id="l9f2qw"
-OPENAI_API_KEY = "your_key_here"
+```env
+OPENAI_API_KEY=your_key_here
 ```
 
-### Run the app
+Run:
 
-```bash id="p2m8zn"
+```bash
 streamlit run app.py
 ```
 
 ---
 
-## 📈 Why This Matters
+## 📁 Project Structure
 
-Traditional document search:
-
-* relies on keyword matching
-* lacks context awareness
-* is time-consuming
-
-ChatPDF:
-
-* enables **semantic understanding**
-* provides **traceable answers**
-* transforms documents into **interactive systems**
+```
+ChatPDF/
+├── app.py              # Streamlit UI + RAG orchestration
+├── requirements.txt
+├── RAG_ChatPDF.gif     # Demo preview
+```
 
 ---
 
-## 🔮 Future Improvements
+## 🧪 Use Cases
 
-* Multi-document cross-referencing
-* Persistent vector database storage
-* Advanced filtering (by section, topic, metadata)
-* Performance optimization for large-scale document sets
-* Integration with external knowledge sources
+**Legal & Contracts** — Extract clauses instantly
+→ "What are the termination conditions?"
+
+**Technical Docs** — Navigate large documentation
+→ "How is authentication handled?"
+
+**Research Papers** — Summarize and cross-reference
+→ "What is the main contribution of this paper?"
+
+**General Knowledge Bases** — Turn any PDF into a chatbot
+
+---
+
+## ⚠️ Limitations
+
+* In-memory vector store (data not persisted)
+* Dependent on OpenAI API
+* Not optimized for very large datasets
+
+---
+
+## 🔮 What's Next
+
+* Persistent vector database
+* Streaming responses
+* PDF highlighting (exact text spans)
+* Hybrid search (BM25 + embeddings)
+* Migration to LangChain 1.x (LCEL)
 
 ---
 
 ## 👤 Author
 
-**Luca Craciun**
-AI Automation Engineer
-
+**Luca Crăciun** — AI Automation Engineer
 GitHub: https://github.com/lucaomul
 LinkedIn: https://www.linkedin.com/in/gabriel-luca-craciun-25ba95295
 
 ---
 
-## ⭐ If you find this useful
+## 🧩 Final Note
 
-Star the repo or fork it to build your own document intelligence system.
+This isn’t just a demo.
+
+It’s a practical implementation of RAG focused on:
+
+* correctness
+* usability
+* real-world workflows
+
+---
