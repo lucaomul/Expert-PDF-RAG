@@ -8,7 +8,7 @@ A retrieval-augmented generation (RAG) system that turns PDFs into **interactive
 
 ## 🎬 Demo
 
-![Demo](./RAG_ChatPDF.gif)
+![Demo](./docs/RAG_ChatPDF.gif)
 
 ---
 
